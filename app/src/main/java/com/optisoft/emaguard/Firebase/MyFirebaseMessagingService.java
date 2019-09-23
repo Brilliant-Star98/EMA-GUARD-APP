@@ -30,6 +30,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private CommonPrefrence commonPrefrence = new CommonPrefrence();
 
     @Override
+    public void onNewToken(String s) {
+        commonPrefrence.setFbTockenPref(this, s);
+        super.onNewToken(s);
+    }
+
+    @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         if (commonPrefrence.getUserLoginSharedPref(this) == null){
             return;

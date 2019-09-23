@@ -55,11 +55,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Firebase.FirebaseIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
         <service android:name=".Firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -73,13 +68,15 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Activity.AddVisitorActivity"
+        <activity
+            android:name=".Activity.AddVisitorActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
-        <activity android:name=".Activity.ListVisitorActivity"
+        <activity
+            android:name=".Activity.ListVisitorActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.ImageActivity"></activity>
     </application>
 
 </manifest>

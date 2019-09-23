@@ -6,7 +6,7 @@
     android:layout_height="?attr/actionBarSize"
     android:layout_margin="0dp"
     android:elevation="@dimen/dp_10"
-    android:background="@color/colorPrimary"
+    android:background="@color/card_back_color_1"
     android:contentInsetLeft="10dp"
     android:contentInsetRight="10dp"
     android:contentInsetStart="10dp"
@@ -35,15 +35,17 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAllCaps="true"
-            android:layout_toRightOf="@+id/drawer"
-            android:layout_toLeftOf="@+id/menu"
-            android:padding="@dimen/dp_5"
+            android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/dp_5"
-            android:textSize="@dimen/dp_20"
+            android:layout_marginEnd="0dp"
+            android:layout_toLeftOf="@+id/menu"
+            android:layout_toRightOf="@+id/drawer"
             android:gravity="left|center_vertical"
+            android:padding="@dimen/dp_5"
             android:text="@string/app_name"
-            android:textColor="@color/white" />
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_20" />
 
         <ImageView
             android:id="@+id/menu"

@@ -11,6 +11,7 @@ import com.optisoft.emaguard.Activity.ForgotPasswordActivity;
 import com.optisoft.emaguard.Activity.ListVisitorActivity;
 import com.optisoft.emaguard.Activity.LoginActivity;
 import com.optisoft.emaguard.Activity.ProfileActivity;
+import com.optisoft.emaguard.Firebase.NotificationActivity;
 import com.optisoft.emaguard.Fragments.GuardDashboardFragment;
 import com.optisoft.emaguard.Model.ResponseModel;
 import com.optisoft.emaguard.R;
@@ -238,7 +239,29 @@ public class CallApi {
         });
     }
 
+    public void requestSetExtension(final NotificationActivity context, HashMap<String, String> map){
+        dialogShow(context, "processing...");
+        Call<ResponseModel> call = service.requestSetExtension(map);
+        call.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel>call, Response<ResponseModel> response) {
+                dialogHide();
+                if (response.body() != null){
+                    Log.e(SUCCESS_TAG, response.body().toString());
+                    context.responseSetExtension(response.body());
+                }else {
+                    context.customToast(response.message());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseModel>call, Throwable t) {
+                Log.e("OTH_RES_Error", t.toString());
+                dialogHide();
+                context.customToast(context.getString(R.string.server_not_responding));
+            }
+        });
+    }
 
     public void requestGuardUsers(final AddVisitorActivity context, String agentId ) {
         dialogShow(context, "processing...");

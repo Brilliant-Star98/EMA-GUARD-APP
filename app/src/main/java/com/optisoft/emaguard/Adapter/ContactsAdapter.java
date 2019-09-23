@@ -91,7 +91,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyView
 
             case "0":
                 holder.mStatus.setBackgroundColor(Color.parseColor("#f1a92d"));
-                holder.mStatus.setText("Pendding");
+                holder.mStatus.setText("Pending");
                 break;
 
             case "1":

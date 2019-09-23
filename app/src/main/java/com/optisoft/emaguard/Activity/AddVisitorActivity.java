@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ import com.optisoft.emaguard.R;
 import com.optisoft.emaguard.Webservices.CallApi;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,8 +52,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import okhttp3.MediaType;
@@ -59,6 +63,7 @@ import okhttp3.RequestBody;
 
 import static com.optisoft.emaguard.Activity.ProfileActivity.EXTERNAL_STORAGE_PERMISSION_CONSTANT;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.EXCEPTION_TAG;
+import static com.optisoft.emaguard.HelperClasses.ApiConstant.IMAGE_URL;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.INTENT_TAG;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.convert_time;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.hideKeyboardFrom;
@@ -86,6 +91,7 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
     private VisitorModel visitorModel = null;
     private String visitorId = "";
     private ScrollView scrollView;
+    private boolean isTouch1 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +128,7 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
         et_date_out    = (EditText) findViewById(R.id.et_date_out);
         et_time_in     = (EditText) findViewById(R.id.et_time_in);
         et_time_out    = (EditText) findViewById(R.id.et_time_out);
-        et_vehical_num = (EditText) findViewById(R.id.et_vehical_num);
+        //et_vehical_num = (EditText) findViewById(R.id.et_vehical_num);
         et_num_person  = (EditText) findViewById(R.id.et_num_person);
 
         tv_title   = (TextView) findViewById(R.id.tv_title);
@@ -137,13 +143,25 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
         et_date_out.setOnClickListener(this);
         et_time_in.setOnClickListener(this);
         et_time_out.setOnClickListener(this);
-
+        setCurrentDateTime();
         if (!isAdd){
             setData();
         }
         loadData();
 
         scrollView.setOnTouchListener(this);
+    }
+
+    private void setCurrentDateTime() {
+        Calendar cal = Calendar.getInstance();
+        Date currentTime = cal.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = df.format(currentTime);
+        et_date_in.setText(formattedDate);
+        String aMpM = "AM";
+        int hours = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        et_time_in.setText(convert_time(hours) + ":" + convert_time(minute));
     }
 
     private void setData() {
@@ -158,12 +176,13 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
         spinner_visit_to.setText(visitorModel.getVisit_to());
         et_name.setText(visitorModel.getVisitor_name());
         et_num_person.setText(visitorModel.getNum_person());
-        et_vehical_num.setText(visitorModel.getVical_no());
+        //et_vehical_num.setText(visitorModel.getVical_no());
         et_mobile.setText(visitorModel.getMobile());
         et_time_out.setText(visitorModel.getTime_out());
         et_time_in.setText(visitorModel.getTime_in());
         et_date_out.setText(visitorModel.getDate_out());
         et_date_in.setText(visitorModel.getDate_in());
+        Picasso.with(this).load(IMAGE_URL + visitorModel.getImage()).placeholder(R.drawable.user).error(R.drawable.user).into(imageView);
         if (visitorModel.getGender().equalsIgnoreCase("Male")){
             male.setChecked(true);
         }else {
@@ -173,7 +192,7 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
        if (!visitorModel.getStatus().equals("0")){
            spinner_visit_to.setEnabled(false);
            et_num_person.setEnabled(false);
-           et_vehical_num.setEnabled(false);
+           //et_vehical_num.setEnabled(false);
            et_mobile.setEnabled(false);
            et_name.setEnabled(false);
            et_name.setEnabled(false);
@@ -200,13 +219,13 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
 
             case "0":
                 status.setBackgroundColor(Color.parseColor("#f1a92d"));
-                status.setText("Pendding");
+                status.setText("Pending");
                 break;
 
             case "1":
                 status.setBackgroundColor(Color.parseColor("#16b728"));
                 status.setText("Accepted");
-                submit.setText("Close");
+                submit.setText("Exit");
                 break;
 
             case "2":
@@ -246,7 +265,9 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
 
             case R.id.imageView:
                 if (isAdd)
-                selectImage();
+                    selectImage();
+                else
+                    showFullImage();
                 break;
 
             case R.id.et_date_in:
@@ -313,7 +334,8 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
         dateOutStr = et_date_out.getText().toString();
         timeInStr = et_time_in.getText().toString();
         timeOutStr = et_time_out.getText().toString();
-        vehicalStr = et_vehical_num.getText().toString();
+        vehicalStr = "";
+        //vehicalStr = et_vehical_num.getText().toString();
         personStr = et_num_person.getText().toString();
 
         if (male.isChecked()){
@@ -403,6 +425,19 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
             if (visitorModel.getStatus().equals("0")){
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), "0"));
             }else {
+                if (visitorModel.getStatus().equals("1")){
+                    Calendar cal = Calendar.getInstance();
+                    Date currentTime = cal.getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                    String formattedDate = df.format(currentTime);
+                    dateOutStr = formattedDate;
+                    int hours = cal.get(Calendar.HOUR_OF_DAY);
+                    int minute = cal.get(Calendar.MINUTE);
+                    timeOutStr = convert_time(hours) + ":" + convert_time(minute);
+                    map.put("date_out", RequestBody.create(MediaType.parse("text/plain"), dateOutStr));
+                    map.put("time_out", RequestBody.create(MediaType.parse("text/plain"), timeOutStr));
+                    map.put("exit", RequestBody.create(MediaType.parse("text/plain"), "exiting"));
+                }
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), "3"));
             }
 
@@ -456,6 +491,12 @@ public class AddVisitorActivity extends AppCompatActivity implements View.OnClic
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(cameraIntent, CAMERA_REQUEST);
         }
+    }
+
+    private void showFullImage() {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("image", visitorModel.getImage());
+        startActivity(intent);
     }
 
     public  boolean isStoragePermissionGranted() {

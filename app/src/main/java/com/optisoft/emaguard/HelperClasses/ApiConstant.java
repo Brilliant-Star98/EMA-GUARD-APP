@@ -29,8 +29,8 @@ public class ApiConstant {
 
     /**************************************** API CONSTANTS START ***************************************************/
 
-//    public static final String API_BASE_URL               = "http://etha.in/ema/admin/";
-    public static final String API_BASE_URL               = "http://10.0.2.2/ema/admin/";
+    public static final String API_BASE_URL               = "http://etha.in/ema/admin/";
+//    public static final String API_BASE_URL               = "http://10.0.2.2/ema/admin/";
     public static final String API_VERIFY_AGENT           = "Api/verifyAgentCode/{agent_code}";
     public static final String API_SIGN_UP_USER           = "Api/registerUser";
     public static final String API_SIGN_UP_HELPER         = "Api/registerHelper";
@@ -50,6 +50,7 @@ public class ApiConstant {
     public static final String API_FORGOT_PASSWORD        = "Api/forgotPassword";
     public static final String API_CONTACT_US             = "Api/contactUsData";
     public static final String API_REPLY_VISITER          = "Api/replyVisiter";
+    public static final String API_SET_EXTENSION          = "Api/setExtension";
     public static final String API_DISTRESS_MESSAGE       = "Api/sendDistressMessage";
     public static final String API_DISTRESS_MESSAGES      = "Api/getDistressMessage/{user_id}";
     public static final String API_SEND_DIS_ALL           = "Api/sendDistressMessageAll";

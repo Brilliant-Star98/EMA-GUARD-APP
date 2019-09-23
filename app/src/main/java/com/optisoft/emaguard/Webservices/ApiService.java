@@ -25,6 +25,7 @@ import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_LOGIN_AGENT;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_LOGIN_GUARD;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_REPLY_VISITER;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_RESET_PASSWORD;
+import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_SET_EXTENSION;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_UPDATE_PROFILE;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_VISITOR_ENTRY;
 import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_VISITOR_UPDATE;
@@ -83,5 +84,9 @@ import static com.optisoft.emaguard.HelperClasses.ApiConstant.API_VISITOR_UPDATE
    @FormUrlEncoded
    @POST(API_REPLY_VISITER)
    Call<ResponseModel> requestReplyVisiter(@FieldMap HashMap<String, String> params);
+
+   @FormUrlEncoded
+   @POST(API_SET_EXTENSION)
+   Call<ResponseModel> requestSetExtension(@FieldMap HashMap<String, String> params);
 
 }

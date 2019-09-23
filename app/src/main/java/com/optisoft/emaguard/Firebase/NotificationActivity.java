@@ -27,6 +27,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     private TextView title, message, allow, close;
     private ImageView closeimg;
     private int notiId = -1;
+    private int allow_type = 0;
 
     private CommonPrefrence commonPrefrence = new CommonPrefrence();
     private UserModel usersModel = new UserModel();
@@ -70,8 +71,15 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
                 user = intent.getStringExtra("user");
                 if (type.equals("VISITER")){
                     visiterData = intent.getStringExtra("data");
+                    allow_type = 1;
                     allow.setVisibility(View.VISIBLE);
                     close.setText("Reject");
+                }
+                if (type.equals("EXTENSION")){
+                    visiterData = intent.getStringExtra("data");
+                    allow.setVisibility(View.VISIBLE);
+                    allow_type = 2;
+                    close.setText("REJECT");
                 }
             }
         }catch (Exception e){
@@ -95,11 +103,32 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case R.id.allow:
-                allowVisiter(1);
+                if (allow_type == 1)
+                    allowVisiter(1);
+                else if (allow_type == 2)
+                    allowVisitorExtend();
                 break;
         }
     }
 
+    private void allowVisitorExtend() {
+        if (visiterData.isEmpty()){
+            finish();
+        }
+        try {
+            JSONObject object = new JSONObject(visiterData);
+            String visiterId = object.getString("visitor_id");
+            HashMap<String, String> map = new HashMap<>();
+            map.put("visitor_id", visiterId);
+            map.put("reason", object.getString("reason"));
+            map.put("visitor_name", object.getString("visitor_name"));
+            map.put("user_id", object.getString("user_id"));
+            callApi.requestSetExtension(this, map);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            finish();
+        }
+    }
     private void allowVisiter(int i) {
         if (visiterData.isEmpty()){
             finish();
@@ -133,6 +162,17 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void requestReplyVisiter(ResponseModel body) {
+        try {
+            customToast(body.getMessage());
+            if (body.getStatus()==1){
+                finish();
+            }
+        }catch (Exception e){
+            customToast(e.getMessage());
+        }
+    }
+
+    public void responseSetExtension(ResponseModel body) {
         try {
             customToast(body.getMessage());
             if (body.getStatus()==1){

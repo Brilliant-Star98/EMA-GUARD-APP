@@ -22,7 +22,7 @@
             card_view:contentPadding="@dimen/dp_10"
             app:cardCornerRadius="@dimen/dp_5"
             android:elevation="@dimen/dp_4"
-            card_view:cardBackgroundColor="#e6344376">
+            card_view:cardBackgroundColor="#e600497C">
 
             <RelativeLayout
                 android:orientation="vertical"

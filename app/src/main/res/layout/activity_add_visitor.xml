@@ -361,35 +361,6 @@
                             android:orientation="vertical">
 
                             <com.rengwuxian.materialedittext.MaterialEditText
-                                android:id="@+id/et_vehical_num"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Vehical Number"
-                                android:textSize="@dimen/dp_16"
-                                android:maxLength="20"
-                                android:textAllCaps="true"
-                                android:inputType="text"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                app:met_floatingLabel="highlight"
-                                app:met_floatingLabelText="Vehical Number"
-                                app:met_textColor="@color/white"
-                                app:met_textColorHint="@color/off_white"
-                                app:met_underlineColor="@color/white"
-                                app:met_baseColor="@color/off_white"
-                                app:met_primaryColor="@color/white"
-                                app:met_iconPadding="0dp"
-                                app:met_errorColor="@color/red"
-                                app:met_iconRight="@drawable/location_marker"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <com.rengwuxian.materialedittext.MaterialEditText
                                 android:id="@+id/et_num_person"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -425,7 +396,7 @@
                         <customfonts.MyTextViewMedium
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Capture Visitor Image"
+                            android:text="Capture Visitor's ID"
                             android:gravity="center"
                             android:textSize="@dimen/dp_14"
                             android:textColor="@color/white"/>
